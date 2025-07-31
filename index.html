@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keyboard Typing Tutor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container-fluid py-4">
+        <!-- Header -->
+        <div class="row mb-4">
+            <div class="col-12 text-center">
+                <h1 class="display-4 text-primary mb-2">
+                    <i class="fas fa-keyboard me-3"></i>Typing Tutor
+                </h1>
+                <p class="lead text-muted">Improve your typing speed and accuracy with random paragraphs</p>
+            </div>
+        </div>
+
+        <!-- Statistics Panel -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body py-3">
+                        <div class="row text-center">
+                            <div class="col-md-2 col-6 mb-2 mb-md-0">
+                                <div class="stat-item">
+                                    <h3 class="stat-value text-success mb-1" id="wpm">0</h3>
+                                    <small class="text-muted">WPM</small>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-6 mb-2 mb-md-0">
+                                <div class="stat-item">
+                                    <h3 class="stat-value text-info mb-1" id="accuracy">100%</h3>
+                                    <small class="text-muted">Accuracy</small>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-6 mb-2 mb-md-0">
+                                <div class="stat-item">
+                                    <h3 class="stat-value text-warning mb-1" id="errors">0</h3>
+                                    <small class="text-muted">Errors</small>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-6 mb-2 mb-md-0">
+                                <div class="stat-item">
+                                    <h3 class="stat-value text-secondary mb-1" id="timer">5:00</h3>
+                                    <small class="text-muted">Time</small>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-12">
+                                <div class="progress" style="height: 25px;">
+                                    <div class="progress-bar bg-success" role="progressbar" 
+                                         style="width: 0%" id="progressBar" aria-valuenow="0" 
+                                         aria-valuemin="0" aria-valuemax="100">
+                                        <span id="progressText">0%</span>
+                                    </div>
+                                </div>
+                                <small class="text-muted">Progress</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Control Panel -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body py-3">
+                        <div class="row align-items-center">
+                            <div class="col-md-3 col-6 mb-2 mb-md-0">
+                                <label for="timerSelect" class="form-label small text-muted mb-1">Duration</label>
+                                <select class="form-select form-select-sm" id="timerSelect">
+                                    <option value="60">1 Minute</option>
+                                    <option value="180">3 Minutes</option>
+                                    <option value="300" selected>5 Minutes</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 col-6 mb-2 mb-md-0">
+                                <label class="form-label small text-muted mb-1">&nbsp;</label>
+                                <div class="d-flex gap-2">
+                                    <button class="btn btn-success btn-sm flex-fill" id="startBtn">
+                                        <i class="fas fa-play me-1"></i>Start
+                                    </button>
+                                    <button class="btn btn-warning btn-sm flex-fill" id="resetBtn">
+                                        <i class="fas fa-refresh me-1"></i>Reset
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-6 mb-2 mb-md-0">
+                                <label class="form-label small text-muted mb-1">&nbsp;</label>
+                                <button class="btn btn-primary btn-sm w-100" id="newParagraphBtn">
+                                    <i class="fas fa-random me-1"></i>New Paragraph
+                                </button>
+                            </div>
+                            <div class="col-md-3 col-6">
+                                <label class="form-label small text-muted mb-1">&nbsp;</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="keyboardToggle">
+                                    <label class="form-check-label small" for="keyboardToggle">
+                                        Show Keyboard
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Text Display Area -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h6 class="card-title mb-0">Practice Text</h6>
+                            <small class="text-muted" id="paragraphInfo">Paragraph 1 of 12</small>
+                        </div>
+                        <div class="text-display-container">
+                            <div id="textDisplay" class="text-display"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <label for="textInput" class="form-label">Type the text above:</label>
+                        <textarea class="form-control form-control-lg" id="textInput" 
+                                  rows="4" placeholder="Click here and start typing..." 
+                                  disabled></textarea>
+                        <small class="text-muted mt-2 d-block">
+                            <i class="fas fa-info-circle me-1"></i>
+                            Focus on accuracy first, speed will come naturally with practice. Click "New Paragraph" for fresh content!
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Virtual Keyboard -->
+        <div class="row mb-4" id="virtualKeyboard" style="display: none;">
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <h6 class="card-title text-center mb-3">Virtual Keyboard</h6>
+                        <div class="keyboard-container">
+                            <div class="keyboard-row mb-2">
+                                <div class="keyboard-key" data-key="q">Q</div>
+                                <div class="keyboard-key" data-key="w">W</div>
+                                <div class="keyboard-key" data-key="e">E</div>
+                                <div class="keyboard-key" data-key="r">R</div>
+                                <div class="keyboard-key" data-key="t">T</div>
+                                <div class="keyboard-key" data-key="y">Y</div>
+                                <div class="keyboard-key" data-key="u">U</div>
+                                <div class="keyboard-key" data-key="i">I</div>
+                                <div class="keyboard-key" data-key="o">O</div>
+                                <div class="keyboard-key" data-key="p">P</div>
+                            </div>
+                            <div class="keyboard-row mb-2">
+                                <div class="keyboard-key" data-key="a">A</div>
+                                <div class="keyboard-key" data-key="s">S</div>
+                                <div class="keyboard-key" data-key="d">D</div>
+                                <div class="keyboard-key" data-key="f">F</div>
+                                <div class="keyboard-key" data-key="g">G</div>
+                                <div class="keyboard-key" data-key="h">H</div>
+                                <div class="keyboard-key" data-key="j">J</div>
+                                <div class="keyboard-key" data-key="k">K</div>
+                                <div class="keyboard-key" data-key="l">L</div>
+                            </div>
+                            <div class="keyboard-row">
+                                <div class="keyboard-key" data-key="z">Z</div>
+                                <div class="keyboard-key" data-key="x">X</div>
+                                <div class="keyboard-key" data-key="c">C</div>
+                                <div class="keyboard-key" data-key="v">V</div>
+                                <div class="keyboard-key" data-key="b">B</div>
+                                <div class="keyboard-key" data-key="n">N</div>
+                                <div class="keyboard-key" data-key="m">M</div>
+                                <div class="keyboard-key space-key" data-key=" ">SPACE</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Modal -->
+        <div class="modal fade" id="resultsModal" tabindex="-1" aria-labelledby="resultsModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title" id="resultsModalLabel">
+                            <i class="fas fa-trophy me-2"></i>Typing Session Complete!
+                        </h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <h3 class="text-success" id="finalWPM">0</h3>
+                                <small class="text-muted">Words Per Minute</small>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <h3 class="text-info" id="finalAccuracy">0%</h3>
+                                <small class="text-muted">Accuracy</small>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <h3 class="text-warning" id="finalErrors">0</h3>
+                                <small class="text-muted">Total Errors</small>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <h3 class="text-secondary" id="finalTime">0:00</h3>
+                                <small class="text-muted">Time Taken</small>
+                            </div>
+                        </div>
+                        <div id="performanceMessage" class="alert alert-info mt-3"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="tryAgainBtn" data-bs-dismiss="modal">
+                            <i class="fas fa-redo me-1"></i>Try Again
+                        </button>
+                        <button type="button" class="btn btn-success" id="newTextBtn" data-bs-dismiss="modal">
+                            <i class="fas fa-random me-1"></i>New Text
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
